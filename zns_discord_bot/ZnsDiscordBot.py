@@ -1,45 +1,25 @@
-import logging
-from typing import Type, Iterable, Optional
+from typing import Type, Iterable
 
 from discord import Intents
 from discord.ext.commands import Bot
-from zns_logging import ZnsLogger
+
+from zns_discord_bot.base.LogBase import LogBase
 
 
-class ZnsDiscordBot(Bot):
+class ZnsDiscordBot(Bot, LogBase):
     def __init__(
-            self,
-            token: str,
-            command_prefix: Type[Iterable[str] | str | tuple],
-            intents: Intents,
-            *,
-            reconnect: bool = True,
-            log_handler: Optional[logging.Handler] = None,
-            log_formatter: logging.Formatter = None,
-            log_level: int = logging.INFO,
-            root_logger: bool = False,
-            **options,
+        self,
+        token: str,
+        command_prefix: Type[Iterable[str] | str | tuple],
+        intents: Intents,
+        **options,
     ):
         super().__init__(command_prefix, intents=intents, **options)
+        LogBase.__init__(self, **options)
 
         self.__token = token
-        self.reconnect = reconnect
-        self.log_handler = log_handler
-        self.log_formatter = log_formatter
-        self.log_level = log_level
-        self.root_logger = root_logger
 
     def init(self):
-        if not self.log_handler:
-            logger = ZnsLogger(__name__, self.log_level)
-            for handler in logger.handlers:
-                if isinstance(handler, logging.StreamHandler):
-                    self.log_handler = handler
-                    break
-
-        if not self.log_formatter:
-            self.log_formatter = self.log_handler.formatter
-
         self.run(
             self.__token,
             reconnect=self.reconnect,
