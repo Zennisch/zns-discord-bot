@@ -1,27 +1,30 @@
 import logging
 from typing import Optional
 
+from discord.utils import MISSING
 from zns_logging import ZnsLogger
 
 
-class LogBase:
+class Log(ZnsLogger):
     def __init__(
         self,
         reconnect: bool = True,
-        log_handler: Optional[logging.Handler] = None,
-        log_formatter: logging.Formatter = None,
-        log_level: int = logging.INFO,
+        log_handler: Optional[logging.Handler] = MISSING,
+        log_formatter: logging.Formatter = MISSING,
+        log_level: int = MISSING,
         root_logger: bool = False,
     ):
+        super().__init__(__name__, log_level)
+
         self.reconnect = reconnect
         self.log_handler = log_handler
         self.log_formatter = log_formatter
         self.log_level = log_level
         self.root_logger = root_logger
 
-        self._process_log_base()
+        self._init_log_base()
 
-    def _process_log_base(self):
+    def _init_log_base(self):
         if not self.log_handler:
             logger = ZnsLogger(__name__, self.log_level)
             for handler in logger.handlers:

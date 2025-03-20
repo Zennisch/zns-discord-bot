@@ -1,12 +1,15 @@
-from typing import Type, Iterable
+import asyncio
+import logging
+from typing import Type, Iterable, Optional
 
-from discord import Intents
+from discord import Intents, utils
 from discord.ext.commands import Bot
+from discord.utils import MISSING
 
-from zns_discord_bot.base.LogBase import LogBase
+from zns_discord_bot.base.Log import Log
 
 
-class ZnsDiscordBot(Bot, LogBase):
+class ZnsDiscordBot(Bot, Log):
     def __init__(
         self,
         token: str,
@@ -15,9 +18,44 @@ class ZnsDiscordBot(Bot, LogBase):
         **options,
     ):
         super().__init__(command_prefix, intents=intents, **options)
-        LogBase.__init__(self, **options)
+        Log.__init__(self, **options)
 
         self.__token = token
+
+    def run(
+        self,
+        token: str,
+        *,
+        reconnect: bool = True,
+        log_handler: Optional[logging.Handler] = MISSING,
+        log_formatter: logging.Formatter = MISSING,
+        log_level: int = MISSING,
+        root_logger: bool = False,
+    ) -> None:
+        async def runner():
+            async with self:
+                await self.start(token, reconnect=reconnect)
+
+        async def wait_for_user():
+            while not self.user:
+                await asyncio.sleep(1)
+            self.name = self.user.name
+
+        async def main():
+            await asyncio.gather(runner(), wait_for_user())
+
+        if log_handler is not None:
+            utils.setup_logging(
+                handler=log_handler,
+                formatter=log_formatter,
+                level=log_level,
+                root=root_logger,
+            )
+
+        try:
+            asyncio.run(main())
+        except KeyboardInterrupt:
+            return
 
     def init(self):
         self.run(
