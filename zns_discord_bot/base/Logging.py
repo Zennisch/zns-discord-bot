@@ -5,7 +5,7 @@ from discord.utils import MISSING
 from zns_logging import ZnsLogger
 
 
-class Log(ZnsLogger):
+class Logging(ZnsLogger):
     """
     A class that extends ZnsLogger to provide flexible logging configurations.
 

@@ -7,10 +7,19 @@ from discord import Intents, utils
 from discord.ext.commands import Bot
 from discord.utils import MISSING
 
-from zns_discord_bot.base.Log import Log
+from zns_discord_bot.base.Logging import Logging
 
 
-class ZnsDiscordBot(Bot, Log):
+class ZnsDiscordBot(Bot, Logging):
+    """
+    A Discord bot class that integrates logging functionalities.
+
+    Args:
+        token (str): The bot's authentication token.
+        command_prefix (Iterable[str] | str | tuple): The command prefix for the bot.
+        intents (Intents): The Discord intents required for bot operation.
+        **options: Additional configuration options for both the bot and logging.
+    """
     def __init__(
         self,
         token: str,
@@ -19,7 +28,7 @@ class ZnsDiscordBot(Bot, Log):
         **options,
     ):
         Bot.__init__(self, command_prefix=command_prefix, intents=intents, **options)
-        Log.__init__(self, **options)
+        Logging.__init__(self, **options)
 
         self._token = token
 
