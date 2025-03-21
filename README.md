@@ -29,6 +29,10 @@ if __name__ == "__main__":
 # Change Log
 ```markdown
 1.0.0
+- Status: Yanked
+- Reason: Wrong README.md documentation
+
+1.0.1
 - Status: Released
-- Changes: Initial release
+- Changes: Fixed README.md documentation
 ```
