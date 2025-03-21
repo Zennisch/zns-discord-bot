@@ -11,7 +11,7 @@ class MessageUtils:
         if not params:
             raise ValueError("The function must have at least one parameter.")
         if params[0].annotation is not Context:
-            raise ValueError(f"The first parameter must be of type {Context.__name__}.")
+            raise ValueError(f"The first parameter must be of type {Context}.")
 
         async def wrapper(ctx: Context, *args, **kwargs):
             interaction = ctx.interaction

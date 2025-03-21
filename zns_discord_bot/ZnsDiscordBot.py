@@ -65,8 +65,8 @@ class ZnsDiscordBot(Bot, Logging):
 
         try:
             asyncio.run(main())
-        except KeyboardInterrupt as e:
-            self.error(f"Bot stopped by user: {e}")
+        except KeyboardInterrupt:
+            self.error(f"Bot stopped by user")
         except Exception as e:
             self.error(f"Bot stopped with error: {e}")
             self.error(traceback.format_exc())
