@@ -20,6 +20,7 @@ class ZnsDiscordBot(Bot, Logging):
         intents (Intents): The Discord intents required for bot operation.
         **options: Additional configuration options for both the bot and logging.
     """
+
     def __init__(
         self,
         token: str,
