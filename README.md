@@ -4,7 +4,7 @@
 
 # Installation
 ```bash
-npm install zns-discord-bot
+pip install zns-discord-bot
 ```
 
 # Usage
