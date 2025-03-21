@@ -18,10 +18,10 @@ class ZnsDiscordBot(Bot, Log):
         intents: Intents,
         **options,
     ):
-        super().__init__(command_prefix=command_prefix, intents=intents, **options)
+        Bot.__init__(self, command_prefix=command_prefix, intents=intents, **options)
         Log.__init__(self, **options)
 
-        self.__token = token
+        self._token = token
 
     def run(
         self,
@@ -63,7 +63,7 @@ class ZnsDiscordBot(Bot, Log):
 
     def init(self):
         self.run(
-            self.__token,
+            self._token,
             reconnect=self.reconnect,
             log_handler=self.log_handler,
             log_formatter=self.log_formatter,
