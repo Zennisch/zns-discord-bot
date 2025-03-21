@@ -22,15 +22,11 @@ class Log(ZnsLogger):
         self.log_level = log_level
         self.root_logger = root_logger
 
-        self._init_log_base()
+        self.__init()
 
-    def _init_log_base(self):
+    def __init(self):
         if not self.log_handler:
-            logger = ZnsLogger(__name__, self.log_level)
-            for handler in logger.handlers:
-                if isinstance(handler, logging.StreamHandler):
-                    self.log_handler = handler
-                    break
+            self.log_handler = ZnsLogger(__name__, self.log_level).handlers[0]
 
         if not self.log_formatter:
             self.log_formatter = self.log_handler.formatter
