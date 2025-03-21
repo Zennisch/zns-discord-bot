@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import traceback
 from typing import Type, Iterable, Optional
 
 from discord import Intents, utils
@@ -17,7 +18,7 @@ class ZnsDiscordBot(Bot, Log):
         intents: Intents,
         **options,
     ):
-        super().__init__(command_prefix, intents=intents, **options)
+        super().__init__(command_prefix=command_prefix, intents=intents, **options)
         Log.__init__(self, **options)
 
         self.__token = token
@@ -54,8 +55,11 @@ class ZnsDiscordBot(Bot, Log):
 
         try:
             asyncio.run(main())
-        except KeyboardInterrupt:
-            return
+        except KeyboardInterrupt as e:
+            self.error(f"Bot stopped by user: {e}")
+        except Exception as e:
+            self.error(f"Bot stopped with error: {e}")
+            self.error(traceback.format_exc())
 
     def init(self):
         self.run(

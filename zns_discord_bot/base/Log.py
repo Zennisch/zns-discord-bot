@@ -6,6 +6,17 @@ from zns_logging import ZnsLogger
 
 
 class Log(ZnsLogger):
+    """
+    A class that extends ZnsLogger to provide flexible logging configurations.
+
+    Args:
+        reconnect (bool): Enables automatic reconnection when needed.
+        log_handler (logging.Handler): The logging handler, default is determined if not provided.
+        log_formatter (logging.Formatter): The log format, retrieved from the handler if not provided.
+        log_level (int): The logging level.
+        root_logger (bool): Specifies whether to use the root logger.
+    """
+
     def __init__(
         self,
         reconnect: bool = True,
