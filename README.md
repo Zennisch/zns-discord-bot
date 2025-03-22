@@ -16,7 +16,7 @@ from zns_discord_bot.ZnsDiscordBot import ZnsDiscordBot
 bot = ZnsDiscordBot(
     token="YOUR.DISCORD.BOT.TOKEN",
     command_prefix="!",
-    intents=Intents.default()
+    intents=Intents.default(),
 )
 
 if __name__ == "__main__":
@@ -29,10 +29,19 @@ if __name__ == "__main__":
 # Change Log
 ```markdown
 1.0.0
+
 - Status: Yanked
+- Change: Initial release
 - Reason: Wrong README.md documentation
 
 1.0.1
+
+- Status: Yanked
+- Change: Fix README.md documentation
+- Reason: `log_level` default value in `Logging` class is not set
+
+1.0.2
+
 - Status: Released
-- Changes: Fixed README.md documentation
+- Change: Fix `log_level` default value in `Logging` class
 ```

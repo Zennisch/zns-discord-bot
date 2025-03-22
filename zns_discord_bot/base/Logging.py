@@ -22,7 +22,7 @@ class Logging(ZnsLogger):
         reconnect: bool = True,
         log_handler: Optional[logging.Handler] = MISSING,
         log_formatter: logging.Formatter = MISSING,
-        log_level: int = MISSING,
+        log_level: int = logging.INFO,
         root_logger: bool = False,
     ):
         super().__init__(__name__, log_level)
