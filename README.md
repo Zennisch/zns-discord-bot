@@ -44,4 +44,9 @@ if __name__ == "__main__":
 
 - Status: Released
 - Change: Fix `log_level` default value in `Logging` class
+
+1.0.3
+
+- Status: Released
+- Change: Change `KeyboardInterrupt` log level from `ERROR` to `INFO`
 ```
