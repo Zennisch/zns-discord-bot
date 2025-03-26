@@ -54,6 +54,11 @@ if __name__ == "__main__":
 
 - Status: Released
 - Changes:
-    - Add file logging for bot and system logs.
+    - Add file logging for bot and system loggers.
     - Add send log and reply log methods.
+
+1.0.5.
+
+- Status: Released
+- Changes: Change the way to assign the name for bot log file.
 ```
