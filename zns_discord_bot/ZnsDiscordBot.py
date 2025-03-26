@@ -19,6 +19,8 @@ class ZnsDiscordBot(Bot, LoggerBase):
         token (str): The bot's authentication token.
         command_prefix (Iterable[str] | str | tuple): The command prefix for the bot.
         intents (Intents): The Discord intents required for bot operation.
+        log_file_path_sys (str): The file path for system logs.
+        log_file_path_bot (str): The file path for bot logs.
         **options: Additional configuration options for both the bot and logging.
     """
 
