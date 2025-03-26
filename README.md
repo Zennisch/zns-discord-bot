@@ -31,22 +31,29 @@ if __name__ == "__main__":
 1.0.0
 
 - Status: Yanked
-- Change: Initial release
-- Reason: Wrong README.md documentation
+- Changes: Initial release.
+- Reason: Wrong README.md documentation.
 
 1.0.1
 
 - Status: Yanked
-- Change: Fix README.md documentation
-- Reason: `log_level` default value in `Logging` class is not set
+- Changes: Fix README.md documentation.
+- Reason: `log_level` default value in `Logging` class is not set.
 
 1.0.2
 
 - Status: Released
-- Change: Fix `log_level` default value in `Logging` class
+- Changes: Fix `log_level` default value in `Logging` class.
 
 1.0.3
 
 - Status: Released
-- Change: Change `KeyboardInterrupt` log level from `ERROR` to `INFO`
+- Changes: Change `KeyboardInterrupt` log level from `ERROR` to `INFO`.
+
+1.0.4
+
+- Status: Released
+- Changes:
+    - Add file logging for bot and system logs.
+    - Add send log and reply log methods.
 ```
