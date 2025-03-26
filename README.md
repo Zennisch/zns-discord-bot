@@ -60,5 +60,10 @@ if __name__ == "__main__":
 1.0.5.
 
 - Status: Released
-- Changes: Change the way to assign the name for bot log file.
+- Changes: Change the way to assign the name for bot logger.
+
+1.0.6
+
+- Status: Released
+- Changes: Change the way to assign the name for bot logger.
 ```

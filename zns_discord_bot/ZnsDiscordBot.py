@@ -1,5 +1,4 @@
 import asyncio
-import functools
 import logging
 import traceback
 from typing import Type, Iterable, Optional
@@ -44,9 +43,11 @@ class ZnsDiscordBot(Bot, LoggerBase):
     def inject_setup_hook(self):
         func = getattr(self, "setup_hook", None)
         if func:
+
             async def setup_hook():
                 self.name = self.user.name
                 await func()
+
             self.event(setup_hook)
 
     def run(
