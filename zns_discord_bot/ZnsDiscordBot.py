@@ -6,6 +6,7 @@ from typing import Type, Iterable, Optional
 from discord import Intents, utils
 from discord.ext.commands import Bot
 from discord.utils import MISSING
+from zns_logging import ZnsLogger
 
 from zns_discord_bot.base.Logging import Logging
 
@@ -26,12 +27,16 @@ class ZnsDiscordBot(Bot, Logging):
         token: str,
         command_prefix: Type[Iterable[str] | str | tuple],
         intents: Intents,
+        *,
+        log_file_path_sys: str = None,
+        log_file_path_bot: str = None,
         **options,
     ):
         Bot.__init__(self, command_prefix=command_prefix, intents=intents, **options)
-        Logging.__init__(self, **options)
+        Logging.__init__(self, file_path=log_file_path_bot, **options)
 
         self._token = token
+        self._log_file_path_sys = log_file_path_sys
 
     def run(
         self,
@@ -62,6 +67,15 @@ class ZnsDiscordBot(Bot, Logging):
                 level=log_level,
                 root=root_logger,
             )
+            if self._log_file_path_sys:
+                log_handler = ZnsLogger(__name__, self.log_level, file_path=self._log_file_path_sys).handlers[1]
+                if root_logger:
+                    logger = logging.getLogger()
+                    logger.addHandler(log_handler)
+                else:
+                    library, _, _ = utils.__name__.partition(".")
+                    logger = logging.getLogger(library)
+                    logger.addHandler(log_handler)
 
         try:
             asyncio.run(main())

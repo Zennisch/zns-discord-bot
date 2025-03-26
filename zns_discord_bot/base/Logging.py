@@ -24,8 +24,9 @@ class Logging(ZnsLogger):
         log_formatter: logging.Formatter = MISSING,
         log_level: int = logging.INFO,
         root_logger: bool = False,
+        **options,
     ):
-        super().__init__(__name__, log_level)
+        super().__init__(__name__, log_level, **options)
 
         self.reconnect = reconnect
         self.log_handler = log_handler
