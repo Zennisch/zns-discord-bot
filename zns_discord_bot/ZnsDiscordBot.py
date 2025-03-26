@@ -40,11 +40,6 @@ class ZnsDiscordBot(Bot, LoggerBase):
         self._token = token
         self._log_file_path_sys = log_file_path_sys
 
-    async def start(self, token: str, *, reconnect: bool = True) -> None:
-        await super().login(token)
-        self.name = self.user.name
-        await super().connect(reconnect=reconnect)
-
     def run(
         self,
         token: str,
