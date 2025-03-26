@@ -6,12 +6,12 @@ from typing import Type, Iterable, Optional
 from discord import Intents, utils
 from discord.ext.commands import Bot
 from discord.utils import MISSING
-from zns_logging import ZnsLogger
+from zns_logging.utility.LogHandlerFactory import LogHandlerFactory
 
-from zns_discord_bot.base.Logging import Logging
+from zns_discord_bot.LoggerBase import LoggerBase
 
 
-class ZnsDiscordBot(Bot, Logging):
+class ZnsDiscordBot(Bot, LoggerBase):
     """
     A Discord bot class that integrates logging functionalities.
 
@@ -33,7 +33,7 @@ class ZnsDiscordBot(Bot, Logging):
         **options,
     ):
         Bot.__init__(self, command_prefix=command_prefix, intents=intents, **options)
-        Logging.__init__(self, file_path=log_file_path_bot, **options)
+        LoggerBase.__init__(self, file_path=log_file_path_bot, **options)
 
         self._token = token
         self._log_file_path_sys = log_file_path_sys
@@ -53,8 +53,7 @@ class ZnsDiscordBot(Bot, Logging):
                 await self.start(token, reconnect=reconnect)
 
         async def wait_for_user():
-            while not self.user:
-                await asyncio.sleep(1)
+            await self.wait_until_ready()
             self.name = self.user.name
 
         async def main():
@@ -68,14 +67,15 @@ class ZnsDiscordBot(Bot, Logging):
                 root=root_logger,
             )
             if self._log_file_path_sys:
-                log_handler = ZnsLogger(__name__, self.log_level, file_path=self._log_file_path_sys).handlers[1]
+                name, _, _ = __name__.partition(".")
+                file_handler = LogHandlerFactory.create_file_handler(filename=self._log_file_path_sys)
                 if root_logger:
                     logger = logging.getLogger()
-                    logger.addHandler(log_handler)
+                    logger.addHandler(file_handler)
                 else:
                     library, _, _ = utils.__name__.partition(".")
                     logger = logging.getLogger(library)
-                    logger.addHandler(log_handler)
+                    logger.addHandler(file_handler)
 
         try:
             asyncio.run(main())

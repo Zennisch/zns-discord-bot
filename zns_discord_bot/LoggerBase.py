@@ -3,9 +3,10 @@ from typing import Optional
 
 from discord.utils import MISSING
 from zns_logging import ZnsLogger
+from zns_logging.utility.LogHandlerFactory import LogHandlerFactory
 
 
-class Logging(ZnsLogger):
+class LoggerBase(ZnsLogger):
     """
     A class that extends ZnsLogger to provide flexible logging configurations.
 
@@ -26,7 +27,9 @@ class Logging(ZnsLogger):
         root_logger: bool = False,
         **options,
     ):
-        super().__init__(__name__, log_level, **options)
+        name, _, _ = __name__.partition('.')
+
+        super().__init__(name, log_level, **options)
 
         self.reconnect = reconnect
         self.log_handler = log_handler
@@ -34,11 +37,11 @@ class Logging(ZnsLogger):
         self.log_level = log_level
         self.root_logger = root_logger
 
-        self.__init()
+        self._process_system_logger_params()
 
-    def __init(self):
+    def _process_system_logger_params(self):
         if not self.log_handler:
-            self.log_handler = ZnsLogger(__name__, self.log_level).handlers[0]
+            self.log_handler = LogHandlerFactory.create_console_handler()
 
         if not self.log_formatter:
             self.log_formatter = self.log_handler.formatter
