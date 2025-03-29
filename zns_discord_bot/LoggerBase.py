@@ -53,7 +53,7 @@ class LoggerBase(ZnsLogger):
         def decorator(func):
             @functools.wraps(func)
             async def wrapper(self, ctx: Context, message: str):
-                getattr(self, log_level)(f"Command log: {ctx.command.name} -> {message}")
+                getattr(self, log_level)(f"CommandLog: [{ctx.command.name}] -> {message}")
                 await ctx.send(content=message)
             return wrapper
         return decorator
@@ -63,7 +63,7 @@ class LoggerBase(ZnsLogger):
         def decorator(func):
             @functools.wraps(func)
             async def wrapper(self, ctx: Context, message: str):
-                getattr(self, log_level)(f"Command log: {ctx.command.name} -> {message}")
+                getattr(self, log_level)(f"CommandLog: {ctx.command.name} -> {message}")
                 await ctx.reply(content=message)
             return wrapper
         return decorator

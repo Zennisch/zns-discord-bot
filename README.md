@@ -66,4 +66,9 @@ if __name__ == "__main__":
 
 - Status: Released
 - Changes: Change the way to assign the name for bot logger.
+
+1.0.7
+
+- Status: Released
+- Changes: Small update in `LoggerBase` class.
 ```
