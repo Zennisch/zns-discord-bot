@@ -8,7 +8,7 @@ from discord.ext.commands import Bot
 from discord.utils import MISSING
 from zns_logging.utility.LogHandlerFactory import LogHandlerFactory
 
-from zns_discord_bot.LoggerBase import LoggerBase
+from zns_discord_bot.logger_base import LoggerBase
 
 
 class ZnsDiscordBot(Bot, LoggerBase):

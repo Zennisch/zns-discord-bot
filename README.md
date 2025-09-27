@@ -11,7 +11,7 @@ pip install zns-discord-bot
 ```python
 from discord import Intents
 
-from zns_discord_bot.ZnsDiscordBot import ZnsDiscordBot
+from zns_discord_bot.zns_discord_bot import ZnsDiscordBot
 
 bot = ZnsDiscordBot(
     token="YOUR.DISCORD.BOT.TOKEN",
