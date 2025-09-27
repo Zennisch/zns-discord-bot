@@ -31,13 +31,31 @@ class ZnsDiscordBot(Bot, LoggerBase):
         intents: Intents,
         *,
         use_easy_embed: bool = False,
+        use_bot_colour: bool = False,
         colour: Optional[Union[int, Colour]] = None,
-        log_file_path_sys: str = None,
+        reconnect: bool = True,
+        log_handler: Optional[logging.Handler] = MISSING,
+        log_formatter: logging.Formatter = MISSING,
+        log_level: int = logging.INFO,
+        root_logger: bool = False,
         log_file_path_bot: str = None,
+        log_file_path_sys: str = None,
         **options,
     ):
         Bot.__init__(self, command_prefix=command_prefix, intents=intents, **options)
-        LoggerBase.__init__(self, file_path=log_file_path_bot, use_easy_embed=use_easy_embed, colour=colour, **options)
+        LoggerBase.__init__(
+            self,
+            reconnect=reconnect,
+            log_handler=log_handler,
+            log_formatter=log_formatter,
+            log_level=log_level,
+            root_logger=root_logger,
+            use_easy_embed=use_easy_embed,
+            use_bot_colour=use_bot_colour,
+            colour=colour,
+            log_file_path_bot=log_file_path_bot,
+            **options,
+        )
 
         self._token = token
         self._log_file_path_sys = log_file_path_sys
