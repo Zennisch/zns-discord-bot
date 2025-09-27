@@ -82,8 +82,11 @@ class LoggerBase(ZnsLogger):
             # Use the provided colour
             pass
 
+        command_name = ctx.command.name if ctx.command else "Unknown Command"
+        command_name = command_name.replace("_", " ").title()
+
         return EasyEmbed(
-            title=f"{ctx.command.name}",
+            title=f"Command: {command_name}",
             description=message,
             colour=colour,
             type="rich",
