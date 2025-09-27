@@ -71,6 +71,12 @@ class LoggerBase(ZnsLogger):
         if not self.log_formatter:
             self.log_formatter = self.log_handler.formatter
 
+    @staticmethod
+    def _process_command_name(command_name: str) -> str:
+        if "_" in command_name:
+            command_name = command_name.replace("_", " ").title()
+        return command_name
+
     def _create_easy_embed(
         self, ctx: Context, message: str, level: str = "info", colour: Optional[Union[int, Colour]] = None
     ) -> EasyEmbed:
@@ -83,7 +89,7 @@ class LoggerBase(ZnsLogger):
             pass
 
         command_name = ctx.command.name if ctx.command else "Unknown Command"
-        command_name = command_name.replace("_", " ").title()
+        command_name = self._process_command_name(command_name)
 
         return EasyEmbed(
             title=f"Command: {command_name}",
@@ -102,7 +108,7 @@ class LoggerBase(ZnsLogger):
             @functools.wraps(func)
             async def wrapper(self, ctx: Context, message: str, colour: Optional[Union[int, Colour]] = None):
                 command_name = ctx.command.name if ctx.command else "Unknown Command"
-                command_name = command_name.replace("_", " ").title()
+                command_name = self._process_command_name(command_name)
                 getattr(self, log_level)(f"Command {log_level}: [{command_name}] -> [{message}]")
                 if self.use_easy_embed:
                     embed = self._create_easy_embed(ctx, message, level=log_level, colour=colour)
@@ -122,7 +128,7 @@ class LoggerBase(ZnsLogger):
                 self, ctx: Context, message: str, colour: Optional[Union[int, Colour]] = None, mention_author: bool = False
             ):
                 command_name = ctx.command.name if ctx.command else "Unknown Command"
-                command_name = command_name.replace("_", " ").title()
+                command_name = self._process_command_name(command_name)
                 getattr(self, log_level)(f"Command {log_level}: [{command_name}] -> [{message}]")
                 if self.use_easy_embed:
                     embed = self._create_easy_embed(ctx, message, level=log_level, colour=colour)
