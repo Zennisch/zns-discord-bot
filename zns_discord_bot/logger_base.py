@@ -99,6 +99,7 @@ class LoggerBase(ZnsLogger):
             @functools.wraps(func)
             async def wrapper(self, ctx: Context, message: str, colour: Optional[Union[int, Colour]] = None):
                 command_name = ctx.command.name if ctx.command else "Unknown Command"
+                command_name = command_name.replace("_", " ").title()
                 getattr(self, log_level)(f"Command {log_level}: [{command_name}] -> [{message}]")
                 if self.use_easy_embed:
                     embed = self._create_easy_embed(ctx, message, level=log_level, colour=colour)
@@ -118,6 +119,7 @@ class LoggerBase(ZnsLogger):
                 self, ctx: Context, message: str, colour: Optional[Union[int, Colour]] = None, mention_author: bool = False
             ):
                 command_name = ctx.command.name if ctx.command else "Unknown Command"
+                command_name = command_name.replace("_", " ").title()
                 getattr(self, log_level)(f"Command {log_level}: [{command_name}] -> [{message}]")
                 if self.use_easy_embed:
                     embed = self._create_easy_embed(ctx, message, level=log_level, colour=colour)

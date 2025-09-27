@@ -80,6 +80,11 @@ if __name__ == "__main__":
 
 - Status: Released
 - Changes: Big update in `LoggerBase` class.
+
+1.0.9
+
+- Status: Released
+- Changes: Small update in `LoggerBase` class.
 ```
 
 
