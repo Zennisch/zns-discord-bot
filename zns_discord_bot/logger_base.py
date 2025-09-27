@@ -72,7 +72,8 @@ class LoggerBase(ZnsLogger):
             self.log_formatter = self.log_handler.formatter
 
     @staticmethod
-    def _process_command_name(command_name: str) -> str:
+    def _process_command_name(ctx: Context) -> str:
+        command_name = ctx.command.name if ctx.command else "Unknown Command"
         if "_" in command_name:
             command_name = command_name.replace("_", " ").title()
         return command_name
@@ -88,11 +89,10 @@ class LoggerBase(ZnsLogger):
             # Use the provided colour
             pass
 
-        command_name = ctx.command.name if ctx.command else "Unknown Command"
-        command_name = self._process_command_name(command_name)
+        command_name = self._process_command_name(ctx)
 
         return EasyEmbed(
-            title=f"Command: {command_name}",
+            title=f"{command_name}",
             description=message,
             colour=colour,
             type="rich",
@@ -107,8 +107,7 @@ class LoggerBase(ZnsLogger):
         def decorator(func):
             @functools.wraps(func)
             async def wrapper(self, ctx: Context, message: str, colour: Optional[Union[int, Colour]] = None):
-                command_name = ctx.command.name if ctx.command else "Unknown Command"
-                command_name = self._process_command_name(command_name)
+                command_name = self._process_command_name(ctx)
                 getattr(self, log_level)(f"Command {log_level}: [{command_name}] -> [{message}]")
                 if self.use_easy_embed:
                     embed = self._create_easy_embed(ctx, message, level=log_level, colour=colour)
@@ -127,8 +126,7 @@ class LoggerBase(ZnsLogger):
             async def wrapper(
                 self, ctx: Context, message: str, colour: Optional[Union[int, Colour]] = None, mention_author: bool = False
             ):
-                command_name = ctx.command.name if ctx.command else "Unknown Command"
-                command_name = self._process_command_name(command_name)
+                command_name = self._process_command_name(ctx)
                 getattr(self, log_level)(f"Command {log_level}: [{command_name}] -> [{message}]")
                 if self.use_easy_embed:
                     embed = self._create_easy_embed(ctx, message, level=log_level, colour=colour)
