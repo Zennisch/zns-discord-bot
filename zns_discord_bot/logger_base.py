@@ -1,11 +1,14 @@
 import functools
 import logging
-from typing import Optional
+from typing import Optional, Union
 
+from discord import Colour, User, ClientUser
 from discord.ext.commands import Context
 from discord.utils import MISSING
 from zns_logging import ZnsLogger
 from zns_logging.utility.LogHandlerFactory import LogHandlerFactory
+
+from zns_discord_bot.components.easy_embed import EasyEmbed
 
 
 class LoggerBase(ZnsLogger):
@@ -27,9 +30,11 @@ class LoggerBase(ZnsLogger):
         log_formatter: logging.Formatter = MISSING,
         log_level: int = logging.INFO,
         root_logger: bool = False,
+        use_easy_embed: bool = False,
+        colour: Optional[Union[int, Colour]] = None,
         **options,
     ):
-        name, _, _ = __name__.partition('.')
+        name, _, _ = __name__.partition(".")
 
         super().__init__(name, log_level, **options)
 
@@ -38,6 +43,8 @@ class LoggerBase(ZnsLogger):
         self.log_formatter = log_formatter
         self.log_level = log_level
         self.root_logger = root_logger
+        self.use_easy_embed = use_easy_embed
+        self.colour = colour if colour is not None else Colour.default()
 
         self._process_system_logger_params()
 
@@ -48,24 +55,52 @@ class LoggerBase(ZnsLogger):
         if not self.log_formatter:
             self.log_formatter = self.log_handler.formatter
 
+    def _create_easy_embed(self, ctx: Context, message: str):
+        return EasyEmbed(
+            title=f"{ctx.command.name}",
+            description=message,
+            colour=self.colour,
+            type="rich",
+            author_name=ctx.author.display_name,
+            author_url=ctx.author.display_avatar.url,
+            author_icon_url=ctx.author.display_avatar.url,
+            thumbnail_url=(
+                ctx.bot.user.display_avatar.url if ctx.bot and isinstance(ctx.bot.user, (User, ClientUser)) else None
+            ),
+        )
+
     @staticmethod
     def _create_send_log_method(log_level: str):
         def decorator(func):
             @functools.wraps(func)
             async def wrapper(self, ctx: Context, message: str):
-                getattr(self, log_level)(f"CommandLog: [{ctx.command.name}] -> {message}")
-                await ctx.send(content=message)
+                command_name = ctx.command.name if ctx.command else "Unknown Command"
+                getattr(self, log_level)(f"Command Executed: [{command_name}] -> [{message}]")
+                if self.use_easy_embed:
+                    embed = self._create_easy_embed(ctx, message)
+                    await ctx.send(embed=embed)
+                else:
+                    await ctx.send(content=message)
+
             return wrapper
+
         return decorator
 
     @staticmethod
-    def _create_reply_log_method(log_level: str):
+    def _create_reply_log_method(log_level: str, mention_author: bool = False):
         def decorator(func):
             @functools.wraps(func)
             async def wrapper(self, ctx: Context, message: str):
-                getattr(self, log_level)(f"CommandLog: {ctx.command.name} -> {message}")
-                await ctx.reply(content=message)
+                command_name = ctx.command.name if ctx.command else "Unknown Command"
+                getattr(self, log_level)(f"Command Executed: [{command_name}] -> [{message}]")
+                if self.use_easy_embed:
+                    embed = self._create_easy_embed(ctx, message)
+                    await ctx.reply(embed=embed, mention_author=mention_author)
+                else:
+                    await ctx.reply(content=message, mention_author=mention_author)
+
             return wrapper
+
         return decorator
 
     @_create_send_log_method("debug")
@@ -84,16 +119,16 @@ class LoggerBase(ZnsLogger):
     async def send_critical(self, ctx: Context, message: str): ...
 
     @_create_reply_log_method("debug")
-    async def reply_debug(self, ctx: Context, message: str): ...
+    async def reply_debug(self, ctx: Context, message: str, mention_author: bool = False): ...
 
     @_create_reply_log_method("info")
-    async def reply_info(self, ctx: Context, message: str): ...
+    async def reply_info(self, ctx: Context, message: str, mention_author: bool = False): ...
 
     @_create_reply_log_method("warning")
-    async def reply_warning(self, ctx: Context, message: str): ...
+    async def reply_warning(self, ctx: Context, message: str, mention_author: bool = False): ...
 
     @_create_reply_log_method("error")
-    async def reply_error(self, ctx: Context, message: str): ...
+    async def reply_error(self, ctx: Context, message: str, mention_author: bool = False): ...
 
     @_create_reply_log_method("critical")
-    async def reply_critical(self, ctx: Context, message: str): ...
+    async def reply_critical(self, ctx: Context, message: str, mention_author: bool = False): ...

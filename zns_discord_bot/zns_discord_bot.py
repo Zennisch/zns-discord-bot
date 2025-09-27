@@ -1,9 +1,9 @@
 import asyncio
 import logging
 import traceback
-from typing import Type, Iterable, Optional
+from typing import Type, Iterable, Optional, Union
 
-from discord import Intents, utils
+from discord import Intents, utils, Colour
 from discord.ext.commands import Bot
 from discord.utils import MISSING
 from zns_logging.utility.LogHandlerFactory import LogHandlerFactory
@@ -30,12 +30,14 @@ class ZnsDiscordBot(Bot, LoggerBase):
         command_prefix: Type[Iterable[str] | str | tuple],
         intents: Intents,
         *,
+        use_easy_embed: bool = False,
+        colour: Optional[Union[int, Colour]] = None,
         log_file_path_sys: str = None,
         log_file_path_bot: str = None,
         **options,
     ):
         Bot.__init__(self, command_prefix=command_prefix, intents=intents, **options)
-        LoggerBase.__init__(self, file_path=log_file_path_bot, **options)
+        LoggerBase.__init__(self, file_path=log_file_path_bot, use_easy_embed=use_easy_embed, colour=colour, **options)
 
         self._token = token
         self._log_file_path_sys = log_file_path_sys
