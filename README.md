@@ -3,11 +3,13 @@
 <h3 align="center">A Discord bot library that integrates many functionalities for Python</h3>
 
 # Installation
+
 ```bash
 pip install zns-discord-bot
 ```
 
 # Usage
+
 ```python
 from discord import Intents
 
@@ -24,9 +26,11 @@ if __name__ == "__main__":
 ```
 
 # Features
+
 (Will be updated soon)
 
 # Change Log
+
 ```markdown
 1.0.0
 
@@ -71,4 +75,11 @@ if __name__ == "__main__":
 
 - Status: Released
 - Changes: Small update in `LoggerBase` class.
+
+1.0.8
+
+- Status: Released
+- Changes: Big update in `LoggerBase` class.
 ```
+
+
