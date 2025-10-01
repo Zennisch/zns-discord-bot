@@ -78,28 +78,37 @@ if __name__ == "__main__":
 
 1.0.8
 
-- Status: Released
+- Status: Yanked
+- Accidentally uploaded test module.
 - Changes: Big update in `LoggerBase` class.
 
 1.0.9
 
-- Status: Released
+- Status: Yanked
+- Accidentally uploaded test module.
 - Changes: Small update in `LoggerBase` class.
 
 1.0.10
 
-- Status: Released
+- Status: Yanked
+- Accidentally uploaded test module.
 - Changes: Small update in `LoggerBase` class.
 
 1.0.11
 
-- Status: Released
+- Status: Yanked
+- Accidentally uploaded test module.
 - Changes: Small update in `LoggerBase` class.
 
 1.0.12
 
-- Status: Released
+- Status: Yanked
+- Accidentally uploaded test module.
 - Changes: Small update in `LoggerBase` class.
+
+1.0.13
+- Status: Released
+- Changes: Remove test module.
 ```
 
 
